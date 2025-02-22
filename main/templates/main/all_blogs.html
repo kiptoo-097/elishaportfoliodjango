@@ -1,0 +1,30 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center font-weight-bold" style="color: #004080;">All Blogs</h1>
+    <div class="row mt-4">
+        {% for blog in blogs %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
+                {% if blog.image %}
+                <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}" 
+                     style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title font-weight-bold" style="color: #004080;">{{ blog.title }}</h5>
+                    <p class="text-muted small">{{ blog.date_published|date:"F d, Y" }}</p>
+                    <p class="text-muted">{{ blog.content|truncatewords:20 }}</p>
+                    <a href="{% url 'blog_detail' blog.id %}" class="btn btn-primary"
+                       style="background-color: #004080; border: none; border-radius: 20px; padding: 8px 20px;">
+                        Read More
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-muted">No blogs available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

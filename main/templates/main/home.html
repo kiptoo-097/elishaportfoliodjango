@@ -1,0 +1,472 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<section id="home" style="padding-top: 10px;">
+    <!-- Text Content -->
+    <div class="home-content" style="text-align: center; max-width: 800px; margin: auto;">
+        <h1 style="font-size: 2em; text-align: left;">{{ profile.name }}</h1>
+        <h2 style="font-size: 1.2em; text-align: left; color: #007bff;">{{ profile.job_title }}</h2>
+        <p style="font-size: 0.9em; text-align: left;">{{ profile.bio }}</p>
+        <div class="social-icons" style="margin-top: 20px;">
+            <a href="https://x.com/kiplangatElysha?t=PfxoLyTX3oWn5yAO2OWPCQ&s=09" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/kiplangat-elisha-9a2854286?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/mr.elisha_/profilecard/?igsh=MTB3Mmp2Yzc0czRmZw==" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+    <!-- Profile Image -->
+    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="profile-pic">
+</section>
+
+<!-- Education Section -->
+<!-- Education Section -->
+<section id="education" style="padding: 60px 0; background: linear-gradient(135deg, #f5f7fa, #c3cfe2);">
+    <div class="container">
+        <h2 style="font-size: 32px; color: #2c3e50; margin-bottom: 40px; text-align: center; font-weight: 600; text-transform: uppercase;">
+            Education
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 20px;">
+            {% for edu in educations %}
+                <div 
+                    class="education-card" 
+                    style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                    onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.2)';" 
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.1)';"
+                >
+                    <div class="card-body" style="padding: 25px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <i class="fas fa-graduation-cap" style="font-size: 28px; color: #007bff; margin-right: 15px;"></i>
+                            <h3 style="font-size: 24px; color: #34495e; margin: 0; font-weight: 600;">{{ edu.degree }}</h3>
+                        </div>
+                        <p style="font-size: 16px; color: #0966c3; margin-bottom: 15px;">
+                            <i class="fas fa-university" style="margin-right: 10px;"></i>{{ edu.institution }}
+                        </p>
+                        <p style="font-size: 14px; color: #7f8c8d; margin-bottom: 15px;">
+                            <i class="fas fa-calendar-alt" style="margin-right: 10px;"></i>{{ edu.start_date }} - {{ edu.end_date|default:"Present" }}
+                        </p>
+                        <p style="font-size: 14px; color: #7f8c8d; margin-bottom: 15px;">
+                            <i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i>{{ edu.location }}
+                        </p>
+                        <p style="font-size: 14px; color: #34495e; line-height: 1.6;">
+                            {{ edu.description }}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Download CV Button -->
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="{% url 'download_cv' %}" class="btn btn-primary" style="background-color: #007bff; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 16px; font-weight: 600;">
+                <i class="fas fa-download" style="margin-right: 10px;"></i>Download CV
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section id="experience" style="padding: 60px 0; background: #f9f9f9;">
+    <div class="container">
+        <h2 style="font-size: 32px; color: #2c3e50; margin-bottom: 40px; text-align: center; font-weight: 600; text-transform: uppercase;">
+            Experience
+        </h2>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            {% for exp in experiences %}
+                <div 
+                    class="card shadow-sm" 
+                    style="border: none; border-radius: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;"
+                    onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.2)';" 
+                    onmouseout="this.style.backgroundColor=''; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';"
+                >
+                    <div class="card-body" style="padding: 20px;">
+                        <h3 style="font-size: 25px; color: #34495e; margin-bottom: 10px;">{{ exp.title }}</h3>
+                        <p style="font-size: 14px; color: #0966c3; margin-bottom: 15px;">
+                            {{ exp.company }} | {{ exp.start_date }} - {{ exp.end_date|default:"Present" }}
+                        </p>
+                        <ul 
+                            id="description-{{ forloop.counter }}" 
+                            style="font-size: 14px; color: #34495e; padding-left: 20px; margin-bottom: 15px; 
+                                   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+                                   display: -moz-box; -moz-line-clamp: 3; -moz-box-orient: vertical;
+                                   display: box; line-clamp: 3; box-orient: vertical;
+                                   list-style-type: none;"
+                        >
+                            {% for line in exp.description.splitlines %}
+                                <li style="margin-bottom: 8px; position: relative; padding-left: 15px;">
+                                    <span style="position: absolute; left: 0; color: #34495e;">•</span>
+                                    {{ line }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <button 
+                            onclick="toggleDescription('description-{{ forloop.counter }}', 'read-more-{{ forloop.counter }}')" 
+                            id="read-more-{{ forloop.counter }}" 
+                            style="background: none; border: none; color: #3498db; cursor: pointer; font-size: 14px; padding: 0;"
+                        >
+                            Read More
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" style="padding: 60px 0; background: #f9f9f9;">
+    <div class="container">
+        <h2 style="font-size: 32px; color: #2c3e50; margin-bottom: 40px; text-align: center; font-weight: 600; text-transform: uppercase;">
+            Projects
+        </h2>
+        
+        <!-- Property Inspection Projects Section -->
+        <div>
+            <h3 style="font-size: 20px; color: #28a745; margin-bottom: 20px; font-weight: 600; border-bottom: 2px solid #28a745; padding-bottom: 10px;">
+                Property Inspection Projects
+            </h3>
+            <div class="row">
+                {% for project in projects %}
+                    {% if project.type == 'inspection' %}
+                        <div class="col-md-4 mb-4">
+                            <div 
+                                class="project-card" 
+                                style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                                onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.2)';" 
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.1)';"
+                            >
+                                <div class="card-body" style="padding: 25px;">
+                                    <img src="{{ project.image.url }}" alt="{{ project.title }}" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
+                                    <h3 style="font-size: 20px; color: #34495e; margin-bottom: 15px; font-weight: 600;">{{ project.title }}</h3>
+                                    <p style="font-size: 14px; color: #34495e; line-height: 1.6;">
+                                        {{ project.description }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Projects PDFs Section -->
+        <div style="margin-bottom: 40px;">
+            <h3 style="font-size: 20px; color: #007bff; margin-bottom: 20px; font-weight: 600; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
+                Projects PDFs
+            </h3>
+            <div class="row">
+                {% for project in projects %}
+                    {% if project.type == 'pdf' %}
+                        <div class="col-md-4 mb-4">
+                            <div 
+                                class="project-card" 
+                                style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                                onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.2)';" 
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.1)';"
+                            >
+                                <div class="card-body" style="padding: 25px;">
+                                    <h3 style="font-size: 20px; color: #34495e; margin-bottom: 15px; font-weight: 600;">{{ project.title }}</h3>
+                                    <p style="font-size: 14px; color: #34495e; line-height: 1.6; margin-bottom: 20px;">
+                                        {{ project.description }}
+                                    </p>
+                                    <div style="display: flex; gap: 10px;">
+                                        <a href="{{ project.pdf_file.url }}" target="_blank" style="text-decoration: none;">
+                                            <button style="background: #007bff; color: white; border: none; padding: 5px 20px; border-radius: 5px; cursor: pointer;">
+                                                <i class="fas fa-eye"></i> View
+                                            </button>
+                                        </a>
+                                        <a href="{{ project.pdf_file.url }}" download style="text-decoration: none;">
+                                            <button style="background: #28a745; color: white; border: none; padding: 5px 20px; border-radius: 5px; cursor: pointer;">
+                                                <i class="fas fa-download"></i> Download
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Section -->
+<section id="about" style="padding: 60px 0; background: #f9f9f9;">
+    <div class="container">
+        <h2 style="font-size: 32px; color: #2c3e50; margin-bottom: 40px; text-align: center; font-weight: 600; text-transform: uppercase;">
+            About
+        </h2>
+        <div class="row">
+            <!-- My Approach -->
+            <div class="col-md-6 mb-4">
+                <div class="about-card" style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 25px;">
+                    <h3 style="font-size: 24px; color: #007bff; margin-bottom: 20px; font-weight: 600;">
+                        <i class="fas fa-lightbulb" style="margin-right: 10px;"></i>My Approach
+                    </h3>
+                    <p style="font-size: 16px; color: #34495e; line-height: 1.6;">
+                        <strong>Empowerment through Research:</strong> I dive deep into the intricacies of urban environments, harnessing advanced analytical tools like STATA, R, SQL, and Atlas.ti to craft policies that foster equitable living conditions for all.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sustainable and Cost-Effective Living -->
+            <div class="col-md-6 mb-4">
+                <div class="about-card" style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 25px;">
+                    <h3 style="font-size: 24px; color: #28a745; margin-bottom: 20px; font-weight: 600;">
+                        <i class="fas fa-leaf" style="margin-right: 10px;"></i>Sustainable and Cost-Effective Living
+                    </h3>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li style="margin-bottom: 15px;">
+                            <i class="fas fa-sun" style="color: #ffc107; margin-right: 10px;"></i>
+                            <strong>Energy Transition:</strong> I advocate for renewable energy solutions, such as solar panels and geothermal systems, to reduce energy costs and elevate air quality.
+                        </li>
+                        <li style="margin-bottom: 15px;">
+                            <i class="fas fa-seedling" style="color: #28a745; margin-right: 10px;"></i>
+                            <strong>Environmental Considerations:</strong> My designs incorporate green roofs, rain gardens, and other sustainable features to reduce ecological footprints.
+                        </li>
+                        <li style="margin-bottom: 15px;">
+                            <i class="fas fa-dollar-sign" style="color: #007bff; margin-right: 10px;"></i>
+                            <strong>Cost Reduction:</strong> I focus on low-impact materials and efficient construction methods to ensure homes are environmentally friendly and economically viable.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Resilient and Inclusive Communities -->
+            <div class="col-md-6 mb-4">
+                <div class="about-card" style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 25px;">
+                    <h3 style="font-size: 24px; color: #dc3545; margin-bottom: 20px; font-weight: 600;">
+                        <i class="fas fa-users" style="margin-right: 10px;"></i>Resilient and Inclusive Communities
+                    </h3>
+                    <p style="font-size: 16px; color: #34495e; line-height: 1.6;">
+                        I push for policies that guarantee safe, sustainable, and affordable housing, ensuring everyone has a stake in their community's future. My vision extends to creating neighborhoods with community centers, green spaces, and local markets, enhancing social cohesion and opportunity.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Advocacy and Action -->
+            <div class="col-md-6 mb-4">
+                <div class="about-card" style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 25px;">
+                    <h3 style="font-size: 24px; color: #6f42c1; margin-bottom: 20px; font-weight: 600;">
+                        <i class="fas fa-handshake" style="margin-right: 10px;"></i>Advocacy and Action
+                    </h3>
+                    <p style="font-size: 16px; color: #34495e; line-height: 1.6;">
+                        My work goes beyond research; I actively engage with urban planning to ensure developments are inclusive, reflecting the needs of the underrepresented. I partner with community groups, NGOs, and policymakers to challenge and change systemic housing inequalities.
+                    </p>
+                </div>
+            </div>
+
+            <!-- The Five A's of Housing -->
+            <div class="col-md-12 mb-4">
+                <div class="about-card" style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 25px;">
+                    <h3 style="font-size: 24px; color: #17a2b8; margin-bottom: 20px; font-weight: 600;">
+                        <i class="fas fa-home" style="margin-right: 10px;"></i>The Five A's of Housing
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                <li style="margin-bottom: 15px;">
+                                    <i class="fas fa-check-circle" style="color: #17a2b8; margin-right: 10px;"></i>
+                                    <strong>Accessible:</strong> Ensuring housing is reachable for all, regardless of socio-economic status.
+                                </li>
+                                <li style="margin-bottom: 15px;">
+                                    <i class="fas fa-check-circle" style="color: #17a2b8; margin-right: 10px;"></i>
+                                    <strong>Acceptable:</strong> Guaranteeing homes meet high standards of livability and dignity.
+                                </li>
+                                <li style="margin-bottom: 15px;">
+                                    <i class="fas fa-check-circle" style="color: #17a2b8; margin-right: 10px;"></i>
+                                    <strong>Adaptable:</strong> Designing spaces that can evolve with the changing needs of residents.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                <li style="margin-bottom: 15px;">
+                                    <i class="fas fa-check-circle" style="color: #17a2b8; margin-right: 10px;"></i>
+                                    <strong>Affordable:</strong> Making sure cost does not prohibit access to decent housing.
+                                </li>
+                                <li style="margin-bottom: 15px;">
+                                    <i class="fas fa-check-circle" style="color: #17a2b8; margin-right: 10px;"></i>
+                                    <strong>Available:</strong> Increasing the supply of housing where it's needed most.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Blogs Section -->
+<section class="container mt-5">
+    <h2 class="text-center font-weight-bold" style="color: #004080;">Latest Blogs</h2>
+    <div class="row mt-4">
+        {% for blog in blogs %}
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
+                {% if blog.image %}
+                <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}" 
+                     style="height: 180px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title font-weight-bold" style="color: #004080;">{{ blog.title }}</h5>
+                    <p class="text-muted small">{{ blog.date_published|date:"F d, Y" }}</p>
+                    <a href="{% url 'blog_detail' blog.id %}" class="btn btn-primary" 
+                       style="background-color: #004080; border: none; border-radius: 20px; padding: 8px 20px;">
+                        Read More
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'all_blogs' %}" class="btn btn-secondary"
+           style="background-color: #0066cc; border: none; border-radius: 25px; padding: 10px 30px; font-size: 1.1rem;">
+            View All Blogs
+        </a>
+    </div>
+</section>
+
+<section id="contact">
+
+</section>
+<!-- Contact Section -->
+<section id="contact">
+ <!-- Footer Section -->
+<footer style="background: #2c3e50; color: #fff; padding: 60px 0; font-family: 'Poppins', sans-serif;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <!-- Flex Container for Contact Details and Form -->
+        <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+            <!-- Contact Details -->
+            <div style="flex: 1; min-width: 250px;">
+                <h3 style="font-size: 24px; margin-bottom: 20px; color: #007bff; font-weight: 600;">Contact Me</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <!-- Phone -->
+                    <li style="margin-bottom: 15px;">
+                        <a href="tel:+31645992953" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-phone" style="font-size: 20px; color: #007bff;"></i>
+                            <span style="font-size: 16px;">+31 645 992 953</span>
+                        </a>
+                    </li>
+                    <!-- Email -->
+                    <li style="margin-bottom: 15px;">
+                        <a href="mailto:kiplangatelisha6@gmail.com" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-envelope" style="font-size: 20px; color: #007bff;"></i>
+                            <span style="font-size: 16px;">kiplangatelisha6@gmail.com</span>
+                        </a>
+                    </li>
+                    <!-- Address -->
+                    <li style="margin-bottom: 15px;">
+                        <div style="color: #fff; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-map-marker-alt" style="font-size: 20px; color: #007bff;"></i>
+                            <span style="font-size: 16px;">
+                                Burgemeester Oudlaan, 50 144 K9, Rotterdam, 3062 PA
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact Form -->
+            <div style="flex: 1; min-width: 300px;">
+                <h3 style="font-size: 24px; margin-bottom: 20px; color: #007bff; font-weight: 600;">Send a Message</h3>
+                <form action="mailto:kiplangatelisha6@gmail.com" method="post" enctype="text/plain" style="display: flex; flex-direction: column; gap: 15px;">
+                    <input 
+                        type="text" 
+                        name="name" 
+                        placeholder="Your Name" 
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; background: #34495e; color: #fff; border: none;"
+                        required
+                    >
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Your Email" 
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; background: #34495e; color: #fff; border: none;"
+                        required
+                    >
+                    <textarea 
+                        name="message" 
+                        placeholder="Your Message" 
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; background: #34495e; color: #fff; border: none; min-height: 150px;"
+                        required
+                    ></textarea>
+                    <button 
+                        type="submit" 
+                        style="background: #007bff; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-size: 16px; cursor: pointer; transition: background 0.3s ease;"
+                        onmouseover="this.style.background='#0056b3';" 
+                        onmouseout="this.style.background='#007bff';"
+                    >
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #34495e;">
+            <p style="font-size: 16px; margin: 0; background: linear-gradient(90deg, #007bff, #00bfff); -webkit-background-clip: text; -moz-background-clip: text; background-clip: text; color: transparent; font-weight: 600; animation: glow 2s infinite alternate;">
+                &copy; 2025 Kiplangat Elisha. All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- Add this style for the glowing animation -->
+<style>
+    @keyframes glow {
+        0% {
+            opacity: 0.8;
+        }
+        100% {
+            opacity: 1;
+            text-shadow: 0 0 10px #00bfff, 0 0 20px #007bff;
+        }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 15px;
+        }
+
+        footer {
+            padding: 40px 0;
+        }
+
+        .container > div {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-details, .contact-form {
+            min-width: 100%;
+        }
+
+        h3 {
+            font-size: 20px;
+        }
+
+        p, a, input, textarea, button {
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h3 {
+            font-size: 18px;
+        }
+
+        p, a, input, textarea, button {
+            font-size: 12px;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+    }
+</style>
+</section>
+{% endblock %}

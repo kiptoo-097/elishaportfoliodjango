@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiplangat Elisha Portfolio</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Kiplangat Elisha Portfolio">
+    <meta property="og:description" content="{{ profile.bio }}">
+    <meta property="og:image" content="{% if profile.profile_pic %}{{ profile.profile_pic.url }}{% else %}{% static 'images/profile.jpg' %}{% endif %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% if profile.profile_pic %}{{ profile.profile_pic.url }}{% else %}{% static 'images/profile.jpg' %}{% endif %}">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Sticky Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #004080; padding: 15px 20px;">
+        <div class="container">
+            <!-- Brand Name -->
+            <a class="navbar-brand font-weight-bold text-white" href="{% url 'home' %}#home" 
+               style="font-size: 1.5rem;">
+                Kiplangat Elisha
+            </a>
+    
+            <!-- Toggle Button for Mobile -->
+            <button class="navbar-toggler border-0 text-white" type="button" data-toggle="collapse" data-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars" style="color: white; font-size: 1.5rem;"></i>
+            </button>
+    
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav" style="gap: 20px;">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'home' %}#home" style="font-size: 1.2rem;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'home' %}#experience" style="font-size: 1.2rem;">Experience</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'home' %}#education" style="font-size: 1.2rem;">Education</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'home' %}#projects" style="font-size: 1.2rem;">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'home' %}#about" style="font-size: 1.2rem;">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'all_blogs' %}" style="font-size: 1.2rem;">Blogs</a>
+                    </li>
+                    <!-- Contact Button Inside Toggle Menu -->
+                    <li class="nav-item d-lg-none text-center">
+                        <a class="nav-link btn btn-light text-dark px-4" href="#contact" 
+                           style="border-radius: 20px; font-size: 1.2rem;">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+    
+            <!-- Contact Button (Visible Only on Large Screens) -->
+            <div class="d-none d-lg-block">
+                <a class="btn btn-light text-dark px-4" href="#contact" 
+                   style="border-radius: 20px; font-size: 1.2rem;">
+                    Contact
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    {% block content %}
+    {% endblock %}
+    <div class="container">
+        
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Smooth scrolling when clicking internal links
+            const links = document.querySelectorAll("a[href^='#']");
+            links.forEach(link => {
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute("href").substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 50, // Adjust for navbar height
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+    
+            // Scroll to the section if navigating with an anchor
+            if (window.location.hash) {
+                const targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 50,
+                        behavior: "smooth"
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
